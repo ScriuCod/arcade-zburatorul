@@ -24,8 +24,7 @@ namespace myTiles {
 `
 }
 function initRedBaloonOfKindBaloon () {
-    posRow = Math.randomRange(1, 7)
-    coloredBaloon = img`
+    theBaloon = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -66,22 +65,9 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
-`
-    randomColor = Math.randomRange(1, 5)
-    if (randomColor == 1) {
-        coloredBaloon.replace(4, 10)
-    } else if (randomColor == 2) {
-        coloredBaloon.replace(4, 7)
-    } else if (randomColor == 3) {
-        coloredBaloon.replace(4, 6)
-    } else if (randomColor == 4) {
-        coloredBaloon.replace(4, 9)
-    } else if (randomColor == 5) {
-        coloredBaloon.replace(4, 2)
-    }
-    theBaloon = sprites.create(coloredBaloon, SpriteKind.Balon)
-    tiles.placeOnTile(theBaloon, tiles.getTileLocation(posRow, 57))
+`, SpriteKind.Balon)
     theBaloon.vy = -40
+    tiles.placeOnTile(theBaloon, tiles.getTileLocation(Math.randomRange(1, 7), 57))
 }
 function iniMap () {
     tiles.setTilemap(tiles.createTilemap(
@@ -314,6 +300,63 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+sprites.onCreated(SpriteKind.Balon, function (sprite) {
+    coloredBaloon = img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . f f f f f f f f f f f . . . . . . . 
+. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
+. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
+. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
+. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
+. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
+. . . . . . . f f f f f f f f f f f . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . e . . . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e . . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+`
+    randomColor = Math.randomRange(1, 5)
+    if (randomColor == 1) {
+        coloredBaloon.replace(4, 10)
+    } else if (randomColor == 2) {
+        coloredBaloon.replace(4, 7)
+    } else if (randomColor == 3) {
+        coloredBaloon.replace(4, 6)
+    } else if (randomColor == 4) {
+        coloredBaloon.replace(4, 9)
+    } else if (randomColor == 5) {
+        coloredBaloon.replace(4, 2)
+    }
+    sprite.setImage(coloredBaloon)
+})
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (playerFixed) {
         catchedBaloon.vx += 80
@@ -328,13 +371,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
         otherSprite.vy = -80
     }
 })
+let randomColor = 0
+let coloredBaloon: Image = null
 let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
 let theBaloon: Sprite = null
-let randomColor = 0
-let coloredBaloon: Image = null
-let posRow = 0
 iniMap()
 initPlayer()
 game.onUpdateInterval(2000, function () {
