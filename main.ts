@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const Balon = SpriteKind.create()
     export const Map = SpriteKind.create()
     export const baloonFalling = SpriteKind.create()
+    export const Generator = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -24,9 +25,24 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
+function colorBaloon (baloon: Sprite) {
+    coloredBaloon = baloon.image
+    if (sprites.readDataNumber(baloon, "color") == 1) {
+        coloredBaloon.replace(4, 10)
+    } else if (sprites.readDataNumber(baloon, "color") == 2) {
+        coloredBaloon.replace(4, 7)
+    } else if (sprites.readDataNumber(baloon, "color") == 3) {
+        coloredBaloon.replace(4, 6)
+    } else if (sprites.readDataNumber(baloon, "color") == 4) {
+        coloredBaloon.replace(4, 9)
+    } else if (sprites.readDataNumber(baloon, "color") == 5) {
+        coloredBaloon.replace(4, 2)
+    }
+    baloon.setImage(coloredBaloon)
+}
 function iniMap () {
     tiles.setTilemap(tiles.createTilemap(
-            hex`0a003c00080a0a0a0a0a0a0a0a090301010101010101010203010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010b0b0101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b01010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b01010101010101020301010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010b0b03010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b01010101010101020301010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
+            hex`0a003c00080a0a0a0a0a0a0a0a090301010101010101010203010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010b0b0101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b01010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b01010101010101020301010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020b0b0b0101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030b0b0b0b0101010102030101010101010101020301010101010101010203010101010101010b0b03010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010b0b0b0b0b01010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010b0b0b0101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
             img`
 . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
@@ -58,7 +74,7 @@ function iniMap () {
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . . . . . . . . . 
+. 2 2 2 2 . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . 2 2 
@@ -68,14 +84,14 @@ function iniMap () {
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . . . . . . . . . 
+. . . . . . . 2 2 2 
 2 2 . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . . . . . . 2 2 2 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
+. . . . 2 2 2 . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
@@ -218,7 +234,7 @@ function iniMap () {
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (playerFixed) {
-        catchedBaloon.vx += -80
+        catchedBaloon.vx += -40
     } else {
         caracter.vx += -80
     }
@@ -244,8 +260,31 @@ function initPlayer () {
 `, SpriteKind.Player)
     caracter.ay = 200
     tiles.placeOnTile(caracter, tiles.getTileLocation(0, 58))
+    pump = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . c c . . . . . . . 
+. . c c c . c c c c . c c c . . 
+. c c c c 7 7 7 7 7 7 c c c c . 
+. . . c 2 2 2 2 2 2 2 2 c . . . 
+. . c 2 2 2 2 2 2 2 2 2 2 c . . 
+. c 6 6 6 6 6 6 6 2 2 2 2 2 c . 
+. c b b b b b 6 6 6 6 6 6 6 c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c c c c c c c c c c c c c c . 
+`, SpriteKind.Generator)
+    pump.ay = 200
 }
+controller.combos.attachCombo("AA", function () {
+    pump.setPosition(caracter.x, caracter.y)
+})
 scene.onHitWall(SpriteKind.Balon, function (sprite) {
+    music.pewPew.play()
     sprite.startEffect(effects.confetti, 200)
     sprite.setImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -289,11 +328,12 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `)
+    colorBaloon(sprite)
     sprite.setKind(SpriteKind.baloonFalling)
     sprite.vy = 50
     if (sprite == catchedBaloon) {
         playerFixed = false
-        caracter.vy = 50
+        caracter.vy = 20
     }
 })
 scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
@@ -311,65 +351,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onCreated(SpriteKind.Balon, function (sprite) {
-    coloredBaloon = img`
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . f f f f f f f f f f f . . . . . . . 
-. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
-. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
-. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
-. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
-. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
-. . . . . . . f f f f f f f f f f f . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . e e . . . . . . . . . . . . 
-. . . . . . . . . . e e . . . . . . . . . . . . . 
-. . . . . . . . . e e . . . . . . . . . . . . . . 
-. . . . . . . . . e . . . . . . . . . . . . . . . 
-. . . . . . . . . e e . . . . . . . . . . . . . . 
-. . . . . . . . . . e e . . . . . . . . . . . . . 
-. . . . . . . . . . . e e . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . e . . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-`
-    randomColor = Math.randomRange(1, 5)
-    if (randomColor == 1) {
-        coloredBaloon.replace(4, 10)
-    } else if (randomColor == 2) {
-        coloredBaloon.replace(4, 7)
-    } else if (randomColor == 3) {
-        coloredBaloon.replace(4, 6)
-    } else if (randomColor == 4) {
-        coloredBaloon.replace(4, 9)
-    } else if (randomColor == 5) {
-        coloredBaloon.replace(4, 2)
-    }
-    sprite.setImage(coloredBaloon)
+    sprites.setDataNumber(sprite, "color", Math.randomRange(1, 5))
+    colorBaloon(sprite)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (playerFixed) {
-        catchedBaloon.vx += 80
+        catchedBaloon.vx += 40
     } else {
         caracter.vx += 80
     }
@@ -382,11 +369,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
     }
 })
 let theBaloon: Sprite = null
-let randomColor = 0
-let coloredBaloon: Image = null
+let pump: Sprite = null
 let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
+let coloredBaloon: Image = null
 iniMap()
 initPlayer()
 game.onUpdateInterval(2000, function () {
