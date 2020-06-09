@@ -279,13 +279,6 @@ function iniMap () {
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
 }
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (playerFixed) {
-        catchedBaloon.vx += -40
-    } else {
-        caracter.vx += -80
-    }
-})
 function createPump () {
     if (remainingPumps > 0) {
         pump = sprites.create(img`
@@ -333,6 +326,7 @@ function initPlayer () {
 . . . . . f f . . f f . . . . . 
 `, SpriteKind.Player)
     caracter.ay = 200
+    caracter.z = 50
     tiles.placeOnTile(caracter, tiles.getTileLocation(5, 58))
     createPump()
     tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
@@ -389,7 +383,6 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
     sprite.vy = 50
     if (sprite == catchedBaloon) {
         playerFixed = false
-        scene.cameraShake(4, 200)
         caracter.vy = 20
         music.jumpDown.play()
     }
@@ -411,13 +404,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 sprites.onCreated(SpriteKind.Balon, function (sprite) {
     sprites.setDataNumber(sprite, "color", Math.randomRange(1, 5))
     colorBaloon(sprite)
-})
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (playerFixed) {
-        catchedBaloon.vx += 40
-    } else {
-        caracter.vx += 80
-    }
 })
 function updateAvailablePumps () {
     if (remainingPumps == 3) {
@@ -500,11 +486,11 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
 })
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
+let playerFixed = false
+let catchedBaloon: Sprite = null
+let caracter: Sprite = null
 let pump: Sprite = null
 let remainingPumps = 0
-let caracter: Sprite = null
-let catchedBaloon: Sprite = null
-let playerFixed = false
 let coloredBaloon: Image = null
 let pumpScore: Sprite = null
 iniMap()
@@ -557,9 +543,16 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `, SpriteKind.Balon)
-        theBaloon.vy = -40
+        theBaloon.vy = Math.randomRange(-50, -35)
         theBaloon.vx = Math.randomRange(-5, 5)
         theBaloon.setPosition(value.x, value.y - 16)
+    }
+})
+game.onUpdate(function () {
+    if (playerFixed) {
+        catchedBaloon.x += controller.dx(40)
+    } else {
+        caracter.x += controller.dx(80)
     }
 })
 game.onUpdate(function () {
@@ -567,7 +560,7 @@ game.onUpdate(function () {
     if (playerFixed) {
         scene.cameraFollowSprite(catchedBaloon)
         caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
-        catchedBaloon.vy = -1 * (20 + (100 - caracter.y / 10))
+        catchedBaloon.vy = -1 * (15 + (100 - caracter.y / 10))
         if (info.score() < 1000 - caracter.y) {
             info.setScore(1000 - caracter.y)
         }
