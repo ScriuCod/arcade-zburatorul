@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Map = SpriteKind.create()
     export const baloonFalling = SpriteKind.create()
     export const Generator = SpriteKind.create()
+    export const Score = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -43,11 +44,34 @@ d d d e d d d d d d d d d d d d
 d d f e f d d d d d d d d d d d 
 d f f f f f d d d d d d d d d d 
 `
+    //% blockIdentity=images._tile
+    export const tile2 = img`
+d d d d d d d d d d d d d d d d 
+d d d d d d d d d d d d d d d d 
+d d d d d d d d d d d d d d d d 
+d d d d d d d d d d d d d d d d 
+d d d d d d d d d d d d d d d d 
+d d d d d d d d d d d d d d d d 
+d d d c c c 5 c 5 c c c d d d d 
+d d d d c c 5 5 5 c c d d d d d 
+d d d c 5 5 5 5 5 5 5 c d d d d 
+d d c 5 5 5 5 5 5 2 5 5 c d d d 
+d d c 5 5 2 5 5 2 2 5 5 c d d d 
+d d c 5 2 2 2 5 5 2 5 5 c d d d 
+d d c 5 5 2 5 5 5 2 5 5 c d d d 
+d d c 5 5 5 5 5 2 2 2 5 c d d d 
+d d c 5 5 5 5 5 5 5 5 5 c d d d 
+d d c c c c c c c c c c c d d d 
+`
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
     game.over(true, effects.confetti)
     music.wawawawaa.play()
 })
+function showAvailablePumps () {
+    pumpScore.y = scene.cameraTop() + 8
+    pumpScore.x = 20
+}
 function colorBaloon (baloon: Sprite) {
     coloredBaloon = baloon.image
     if (sprites.readDataNumber(baloon, "color") == 1) {
@@ -63,10 +87,76 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
+function initPumpsScore () {
+    remainingPumps = 4
+    pumpScore = sprites.create(img`
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+`, SpriteKind.Score)
+    updateAvailablePumps()
+}
+function updateAvailablePumps () {
+    if (remainingPumps == 3) {
+        pumpScore.setImage(img`
+. c c . c c . c c . . . c c . c c . c c . . . c c . c c . c c . 
+c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c . c c c 4 4 4 4 c c c 
+. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . . . . c 6 4 4 4 c . . 
+. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . . . c b 6 6 6 6 6 c . 
+c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c . c b b 2 2 2 6 6 6 c 
+c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c . c b 2 2 2 2 2 2 b c 
+c b b b b b b b b c . c b b b b b b b b c . c b b b 2 2 2 2 b c 
+c b b b b b b b b c . c b b b b b b b b c . c b b b b b b b b c 
+c c c c c c c c c c . c c c c c c c c c c . c c c c c c c c c c 
+`)
+    } else if (remainingPumps == 2) {
+        pumpScore.setImage(img`
+. c c . c c . c c . . . c c . c c . c c . 
+c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c 
+. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . 
+. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . 
+c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c 
+c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c 
+c b b b b b b b b c . c b b b b b b b b c 
+c b b b b b b b b c . c b b b b b b b b c 
+c c c c c c c c c c . c c c c c c c c c c 
+`)
+    } else if (remainingPumps == 1) {
+        pumpScore.setImage(img`
+. c c . c c . c c . 
+c c c 7 7 7 7 c c c 
+. . c 2 2 2 2 c . . 
+. c 2 2 2 2 2 2 c . 
+c 6 6 6 6 2 2 2 2 c 
+c b b b 6 6 6 6 6 c 
+c b b b b b b b b c 
+c b b b b b b b b c 
+c c c c c c c c c c 
+`)
+    } else {
+        pumpScore.setImage(img`
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`)
+    }
+}
 function iniMap () {
     scene.setBackgroundColor(13)
     tiles.setTilemap(tiles.createTilemap(
-            hex`0a003c00040c0d0c040c0c0d040d080a0a0a0a0a0a0a0a09030101010101010101020301010101010101010203010101010101010102030e0101010101010102101010100f01010111100301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b0b0b010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010b0b0b0101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
+            hex`0a003c00040c0d0c040c0c0d040d080a0a0a0a0a0a0a0a09030101010101010101020301010101010101010203010101010101010102030e0101010101010102101010100f01010111100301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b0b0b010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101140102030101010101010b0b0b030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301011401010101010203010b0b0b010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010b0b0b0101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
             img`
 2 2 2 2 2 2 2 2 2 2 
 . . . . . . . . . . 
@@ -129,7 +219,7 @@ function iniMap () {
 . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6],
+            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2],
             TileScale.Sixteen
         ))
     scene.setBackgroundImage(img`
@@ -263,7 +353,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function createPump () {
-    pump = sprites.create(img`
+    if (remainingPumps > 0) {
+        pump = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -281,9 +372,12 @@ function createPump () {
 . c b b b b b b b b b b b b c . 
 . c c c c c c c c c c c c c c . 
 `, SpriteKind.Generator)
-    pump.ay = 200
-    pump.setPosition(caracter.x, caracter.y)
-    music.magicWand.play()
+        pump.ay = 200
+        pump.setPosition(caracter.x, caracter.y)
+        music.magicWand.play()
+        remainingPumps += -1
+        updateAvailablePumps()
+    }
 }
 function initPlayer () {
     caracter = sprites.create(img`
@@ -361,6 +455,7 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
     sprite.vy = 50
     if (sprite == catchedBaloon) {
         playerFixed = false
+        scene.cameraShake(4, 200)
         caracter.vy = 20
         music.jumpDown.play()
     }
@@ -397,16 +492,26 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
         otherSprite.vy = -40
     }
 })
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
+    tiles.setTileAt(location, sprites.castle.tilePath5)
+    remainingPumps += 1
+    music.baDing.play()
+    updateAvailablePumps()
+})
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
 let pump: Sprite = null
 let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
+let remainingPumps = 0
 let coloredBaloon: Image = null
+let pumpScore: Sprite = null
 iniMap()
+initPumpsScore()
 initPlayer()
 info.setScore(0)
+music.setVolume(10)
 game.onUpdateInterval(2000, function () {
     generatorPumpItem = sprites.allOfKind(SpriteKind.Generator)
     for (let value of generatorPumpItem) {
@@ -458,6 +563,7 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
     }
 })
 game.onUpdate(function () {
+    showAvailablePumps()
     if (playerFixed) {
         scene.cameraFollowSprite(catchedBaloon)
         caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
