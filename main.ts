@@ -381,7 +381,8 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
     colorBaloon(sprite)
     sprite.setKind(SpriteKind.baloonFalling)
     sprite.vy = 50
-    if (sprite == catchedBaloon) {
+    sprite.z = 0
+    if (sprite == catchedBaloon && playerFixed) {
         playerFixed = false
         caracter.vy = 20
         music.jumpDown.play()
@@ -476,6 +477,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
         catchedBaloon = otherSprite
         playerFixed = true
         otherSprite.vy = -40
+        otherSprite.z = 40
     }
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
@@ -549,15 +551,9 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
     }
 })
 game.onUpdate(function () {
-    if (playerFixed) {
-        catchedBaloon.x += controller.dx(40)
-    } else {
-        caracter.x += controller.dx(80)
-    }
-})
-game.onUpdate(function () {
     showAvailablePumps()
     if (playerFixed) {
+        catchedBaloon.x += controller.dx(40)
         scene.cameraFollowSprite(catchedBaloon)
         caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
         catchedBaloon.vy = -1 * (15 + (100 - caracter.y / 10))
@@ -565,6 +561,7 @@ game.onUpdate(function () {
             info.setScore(1000 - caracter.y)
         }
     } else {
+        caracter.x += controller.dx(80)
         scene.cameraFollowSprite(caracter)
     }
 })
