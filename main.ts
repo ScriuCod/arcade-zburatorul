@@ -44,6 +44,10 @@ d d f e f d d d d d d d d d d d
 d f f f f f d d d d d d d d d d 
 `
 }
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
+    game.over(true, effects.confetti)
+    music.wawawawaa.play()
+})
 function colorBaloon (baloon: Sprite) {
     coloredBaloon = baloon.image
     if (sprites.readDataNumber(baloon, "color") == 1) {
@@ -78,7 +82,7 @@ function iniMap () {
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . 2 2 2 2 2 2 . . 
+. . 2 2 2 2 2 . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
@@ -279,6 +283,7 @@ function createPump () {
 `, SpriteKind.Generator)
     pump.ay = 200
     pump.setPosition(caracter.x, caracter.y)
+    music.magicWand.play()
 }
 function initPlayer () {
     caracter = sprites.create(img`
@@ -357,6 +362,7 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
     if (sprite == catchedBaloon) {
         playerFixed = false
         caracter.vy = 20
+        music.jumpDown.play()
     }
 })
 scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
@@ -400,6 +406,7 @@ let playerFixed = false
 let coloredBaloon: Image = null
 iniMap()
 initPlayer()
+info.setScore(0)
 game.onUpdateInterval(2000, function () {
     generatorPumpItem = sprites.allOfKind(SpriteKind.Generator)
     for (let value of generatorPumpItem) {
@@ -445,7 +452,7 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `, SpriteKind.Balon)
-        theBaloon.vy = -20
+        theBaloon.vy = -40
         theBaloon.vx = Math.randomRange(-5, 5)
         theBaloon.setPosition(value.x, value.y - 16)
     }
@@ -454,6 +461,10 @@ game.onUpdate(function () {
     if (playerFixed) {
         scene.cameraFollowSprite(catchedBaloon)
         caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
+        catchedBaloon.vy = -1 * (20 + (100 - caracter.y / 10))
+        if (info.score() < 1000 - caracter.y) {
+            info.setScore(1000 - caracter.y)
+        }
     } else {
         scene.cameraFollowSprite(caracter)
     }
