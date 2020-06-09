@@ -40,6 +40,28 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
+function createPump () {
+    pump = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . c c . . . . . . . 
+. . c c c . c c c c . c c c . . 
+. c c c c 7 7 7 7 7 7 c c c c . 
+. . . c 2 2 2 2 2 2 2 2 c . . . 
+. . c 2 2 2 2 2 2 2 2 2 2 c . . 
+. c 6 6 6 6 6 6 6 2 2 2 2 2 c . 
+. c b b b b b 6 6 6 6 6 6 6 c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c c c c c c c c c c c c c c . 
+`, SpriteKind.Generator)
+    pump.ay = 200
+    pump.setPosition(caracter.x, caracter.y)
+}
 function iniMap () {
     tiles.setTilemap(tiles.createTilemap(
             hex`0a003c00080a0a0a0a0a0a0a0a090301010101010101010203010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010b0b0101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b01010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b01010101010101020301010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020b0b0b0101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030b0b0b0b0101010102030101010101010101020301010101010101010203010101010101010b0b03010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010b0b0b0b0b01010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010b0b0b0101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
@@ -259,32 +281,14 @@ function initPlayer () {
 . . . . . f f . . f f . . . . . 
 `, SpriteKind.Player)
     caracter.ay = 200
-    tiles.placeOnTile(caracter, tiles.getTileLocation(0, 58))
-    pump = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . c c . . . . . . . 
-. . c c c . c c c c . c c c . . 
-. c c c c 7 7 7 7 7 7 c c c c . 
-. . . c 2 2 2 2 2 2 2 2 c . . . 
-. . c 2 2 2 2 2 2 2 2 2 2 c . . 
-. c 6 6 6 6 6 6 6 2 2 2 2 2 c . 
-. c b b b b b 6 6 6 6 6 6 6 c . 
-. c b b b b b b b b b b b b c . 
-. c b b b b b b b b b b b b c . 
-. c b b b b b b b b b b b b c . 
-. c c c c c c c c c c c c c c . 
-`, SpriteKind.Generator)
-    pump.ay = 200
+    tiles.placeOnTile(caracter, tiles.getTileLocation(5, 58))
+    createPump()
+    tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
 }
 controller.combos.attachCombo("AA", function () {
-    pump.setPosition(caracter.x, caracter.y)
+    createPump()
 })
 scene.onHitWall(SpriteKind.Balon, function (sprite) {
-    music.pewPew.play()
     sprite.startEffect(effects.confetti, 200)
     sprite.setImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -369,15 +373,18 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
     }
 })
 let theBaloon: Sprite = null
-let pump: Sprite = null
-let caracter: Sprite = null
+let generatorPumpItem: Sprite[] = []
 let catchedBaloon: Sprite = null
 let playerFixed = false
+let caracter: Sprite = null
+let pump: Sprite = null
 let coloredBaloon: Image = null
 iniMap()
 initPlayer()
 game.onUpdateInterval(2000, function () {
-    theBaloon = sprites.create(img`
+    generatorPumpItem = sprites.allOfKind(SpriteKind.Generator)
+    for (let value of generatorPumpItem) {
+        theBaloon = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -419,8 +426,9 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `, SpriteKind.Balon)
-    theBaloon.vy = -40
-    tiles.placeOnTile(theBaloon, tiles.getTileLocation(Math.randomRange(1, 7), 57))
+        theBaloon.vy = -40
+        theBaloon.setPosition(value.x, value.y - 16)
+    }
 })
 game.onUpdate(function () {
     if (playerFixed) {
