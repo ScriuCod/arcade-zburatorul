@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Balon = SpriteKind.create()
     export const Map = SpriteKind.create()
+    export const baloonFalling = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -22,52 +23,6 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `
-}
-function initRedBaloonOfKindBaloon () {
-    theBaloon = sprites.create(img`
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . f f f f f f f f f f f . . . . . . . 
-. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
-. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
-. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
-. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
-. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
-. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
-. . . . . . . f f f f f f f f f f f . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . e e . . . . . . . . . . . . 
-. . . . . . . . . . e e . . . . . . . . . . . . . 
-. . . . . . . . . e e . . . . . . . . . . . . . . 
-. . . . . . . . . e . . . . . . . . . . . . . . . 
-. . . . . . . . . e e . . . . . . . . . . . . . . 
-. . . . . . . . . . e e . . . . . . . . . . . . . 
-. . . . . . . . . . . e e . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-. . . . . . . . . . . e . . . . . . . . . . . . . 
-. . . . . . . . . . . . e . . . . . . . . . . . . 
-`, SpriteKind.Balon)
-    theBaloon.vy = -40
-    tiles.placeOnTile(theBaloon, tiles.getTileLocation(Math.randomRange(1, 7), 57))
 }
 function iniMap () {
     tiles.setTilemap(tiles.createTilemap(
@@ -290,6 +245,61 @@ function initPlayer () {
     caracter.ay = 200
     tiles.placeOnTile(caracter, tiles.getTileLocation(0, 58))
 }
+scene.onHitWall(SpriteKind.Balon, function (sprite) {
+    sprite.startEffect(effects.confetti, 200)
+    sprite.setImage(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . f f . . . . . . . . . . . . 
+. . . . . . . . . . f f f . . . . . . . . . . . . 
+. . . . . . . . . f f 4 f . . . . . . . . . . . . 
+. . . . . . . . f 4 4 4 f . . . . . . . . . . . . 
+. . . . . . . . f 4 4 4 f . . . . . . . . . . . . 
+. . . . . . . . f 4 4 4 f f . . . . . . . . . . . 
+. . . . . . . . f 4 4 4 4 f . . . . . . . . . . . 
+. . . . . . . . f 4 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . . f f 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . . f f 4 4 4 f f . . . . . . . . . . 
+. . . . . . . f f 4 4 4 4 f . . . . . . . . . . . 
+. . . . . . f 4 4 4 4 4 4 f . . . . . . . . . . . 
+. . . . . . f f 4 4 4 4 f f . . . . . . . . . . . 
+. . . . . . . f 4 4 4 4 f f . . . . . . . . . . . 
+. . . . . . . f 4 4 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . f 4 4 4 4 4 f f . . . . . . . . . . 
+. . . . . . . f f 4 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . . f 4 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . . f 4 4 4 4 f f . . . . . . . . . . 
+. . . . . . . . f 4 4 4 4 4 f f . . . . . . . . . 
+. . . . . . . . f f 4 4 4 4 f . . . . . . . . . . 
+. . . . . . . . . f 4 4 4 f . . . . . . . . . . . 
+. . . . . . . . . . f 4 4 f . . . . . . . . . . . 
+. . . . . . . . . . f 4 4 f . . . . . . . . . . . 
+. . . . . . . . . . f f f f . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . e . . . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e . . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+`)
+    sprite.setKind(SpriteKind.baloonFalling)
+    sprite.vy = 50
+    if (sprite == catchedBaloon) {
+        playerFixed = false
+        caracter.vy = 50
+    }
+})
+scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
+    sprite.startEffect(effects.confetti, 200)
+    sprite.destroy()
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (playerFixed) {
         playerFixed = false
@@ -371,16 +381,59 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
         otherSprite.vy = -80
     }
 })
+let theBaloon: Sprite = null
 let randomColor = 0
 let coloredBaloon: Image = null
 let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
-let theBaloon: Sprite = null
 iniMap()
 initPlayer()
 game.onUpdateInterval(2000, function () {
-    initRedBaloonOfKindBaloon()
+    theBaloon = sprites.create(img`
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . f f f f f f f f f f f . . . . . . . 
+. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
+. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
+. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+. f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . 
+. . . f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f . . . 
+. . . . f f 4 4 4 4 4 4 4 4 4 4 4 4 4 f f . . . . 
+. . . . . . f 4 4 4 4 4 4 4 4 4 4 4 f . . . . . . 
+. . . . . . . f f f f f f f f f f f . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . e . . . . . . . . . . . . . . . 
+. . . . . . . . . e e . . . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . . . . . . . . . . 
+. . . . . . . . . . . e e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+. . . . . . . . . . . e . . . . . . . . . . . . . 
+. . . . . . . . . . . . e . . . . . . . . . . . . 
+`, SpriteKind.Balon)
+    theBaloon.vy = -40
+    tiles.placeOnTile(theBaloon, tiles.getTileLocation(Math.randomRange(1, 7), 57))
 })
 game.onUpdate(function () {
     if (playerFixed) {
