@@ -87,72 +87,6 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
-function initPumpsScore () {
-    remainingPumps = 4
-    pumpScore = sprites.create(img`
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-. . . . . . . . . 
-`, SpriteKind.Score)
-    updateAvailablePumps()
-}
-function updateAvailablePumps () {
-    if (remainingPumps == 3) {
-        pumpScore.setImage(img`
-. c c . c c . c c . . . c c . c c . c c . . . c c . c c . c c . 
-c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c . c c c 4 4 4 4 c c c 
-. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . . . . c 6 4 4 4 c . . 
-. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . . . c b 6 6 6 6 6 c . 
-c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c . c b b 2 2 2 6 6 6 c 
-c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c . c b 2 2 2 2 2 2 b c 
-c b b b b b b b b c . c b b b b b b b b c . c b b b 2 2 2 2 b c 
-c b b b b b b b b c . c b b b b b b b b c . c b b b b b b b b c 
-c c c c c c c c c c . c c c c c c c c c c . c c c c c c c c c c 
-`)
-    } else if (remainingPumps == 2) {
-        pumpScore.setImage(img`
-. c c . c c . c c . . . c c . c c . c c . 
-c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c 
-. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . 
-. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . 
-c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c 
-c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c 
-c b b b b b b b b c . c b b b b b b b b c 
-c b b b b b b b b c . c b b b b b b b b c 
-c c c c c c c c c c . c c c c c c c c c c 
-`)
-    } else if (remainingPumps == 1) {
-        pumpScore.setImage(img`
-. c c . c c . c c . 
-c c c 7 7 7 7 c c c 
-. . c 2 2 2 2 c . . 
-. c 2 2 2 2 2 2 c . 
-c 6 6 6 6 2 2 2 2 c 
-c b b b 6 6 6 6 6 c 
-c b b b b b b b b c 
-c b b b b b b b b c 
-c c c c c c c c c c 
-`)
-    } else {
-        pumpScore.setImage(img`
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-`)
-    }
-}
 function iniMap () {
     scene.setBackgroundColor(13)
     tiles.setTilemap(tiles.createTilemap(
@@ -485,6 +419,72 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         caracter.vx += 80
     }
 })
+function updateAvailablePumps () {
+    if (remainingPumps == 3) {
+        pumpScore.setImage(img`
+. c c . c c . c c . . . c c . c c . c c . . . c c . c c . c c . 
+c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c . c c c 4 4 4 4 c c c 
+. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . . . . c 6 4 4 4 c . . 
+. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . . . c b 6 6 6 6 6 c . 
+c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c . c b b 2 2 2 6 6 6 c 
+c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c . c b 2 2 2 2 2 2 b c 
+c b b b b b b b b c . c b b b b b b b b c . c b b b 2 2 2 2 b c 
+c b b b b b b b b c . c b b b b b b b b c . c b b b b b b b b c 
+c c c c c c c c c c . c c c c c c c c c c . c c c c c c c c c c 
+`)
+    } else if (remainingPumps == 2) {
+        pumpScore.setImage(img`
+. c c . c c . c c . . . c c . c c . c c . 
+c c c 7 7 7 7 c c c . c c c 5 5 5 6 c c c 
+. . c 2 2 2 2 c . . . . . c 6 6 6 6 c . . 
+. c 2 2 2 2 2 2 c . . . c 6 6 6 6 2 2 c . 
+c 6 6 6 6 2 2 2 2 c . c 6 2 2 2 2 2 b b c 
+c b b b 6 6 6 6 6 c . c 2 2 2 2 2 2 b b c 
+c b b b b b b b b c . c b b b b b b b b c 
+c b b b b b b b b c . c b b b b b b b b c 
+c c c c c c c c c c . c c c c c c c c c c 
+`)
+    } else if (remainingPumps == 1) {
+        pumpScore.setImage(img`
+. c c . c c . c c . 
+c c c 7 7 7 7 c c c 
+. . c 2 2 2 2 c . . 
+. c 2 2 2 2 2 2 c . 
+c 6 6 6 6 2 2 2 2 c 
+c b b b 6 6 6 6 6 c 
+c b b b b b b b b c 
+c b b b b b b b b c 
+c c c c c c c c c c 
+`)
+    } else {
+        pumpScore.setImage(img`
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`)
+    }
+}
+function initPumpsScore () {
+    remainingPumps = 4
+    pumpScore = sprites.create(img`
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+. . . . . . . . . 
+`, SpriteKind.Score)
+    updateAvailablePumps()
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSprite) {
     if (!(playerFixed)) {
         catchedBaloon = otherSprite
@@ -501,10 +501,10 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
 let pump: Sprite = null
+let remainingPumps = 0
 let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
-let remainingPumps = 0
 let coloredBaloon: Image = null
 let pumpScore: Sprite = null
 iniMap()
