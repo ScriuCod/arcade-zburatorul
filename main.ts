@@ -24,6 +24,25 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `
+    //% blockIdentity=images._tile
+    export const tile1 = img`
+d d d 4 d d d d d d d d d d d d 
+d d d 2 d d d d d d d d d d d d 
+d d d e 6 6 6 d d 6 6 6 d d d d 
+d d d e 7 7 7 6 6 7 7 7 6 6 d d 
+d d d e 7 7 7 7 7 7 7 7 7 7 6 d 
+d d d e 7 7 7 7 7 7 7 7 7 7 6 d 
+d d d e 7 7 7 7 7 7 7 7 7 7 6 d 
+d d d e 7 7 7 7 7 7 7 7 7 7 6 d 
+d d d e 6 6 7 7 7 6 6 6 7 7 6 d 
+d d d e d d 6 6 6 d d d 6 6 d d 
+d d d e d d d d d d d d d d d d 
+d d d e d d d d d d d d d d d d 
+d d d e d d d d d d d d d d d d 
+d d d e d d d d d d d d d d d d 
+d d f e f d d d d d d d d d d d 
+d f f f f f d d d d d d d d d d 
+`
 }
 function colorBaloon (baloon: Sprite) {
     coloredBaloon = baloon.image
@@ -40,80 +59,59 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
-function createPump () {
-    pump = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . c c . . . . . . . 
-. . c c c . c c c c . c c c . . 
-. c c c c 7 7 7 7 7 7 c c c c . 
-. . . c 2 2 2 2 2 2 2 2 c . . . 
-. . c 2 2 2 2 2 2 2 2 2 2 c . . 
-. c 6 6 6 6 6 6 6 2 2 2 2 2 c . 
-. c b b b b b 6 6 6 6 6 6 6 c . 
-. c b b b b b b b b b b b b c . 
-. c b b b b b b b b b b b b c . 
-. c b b b b b b b b b b b b c . 
-. c c c c c c c c c c c c c c . 
-`, SpriteKind.Generator)
-    pump.ay = 200
-    pump.setPosition(caracter.x, caracter.y)
-}
 function iniMap () {
+    scene.setBackgroundColor(13)
     tiles.setTilemap(tiles.createTilemap(
-            hex`0a003c00080a0a0a0a0a0a0a0a090301010101010101010203010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010b0b0101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b01010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b01010101010101020301010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020b0b0b0101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030b0b0b0b0101010102030101010101010101020301010101010101010203010101010101010b0b03010101010101010102030101010101010101020b0b0101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010b0b0b0b0b01010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010b0b0b0101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
+            hex`0a003c00040c0d0c040c0c0d040d080a0a0a0a0a0a0a0a09030101010101010101020301010101010101010203010101010101010102030e0101010101010102101010100f01010111100301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b0b0b010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010b0b0b0101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
             img`
-. . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
 . . . . . . . . . . 
 . . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 2 . . . 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . 2 2 2 2 2 2 . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
 2 2 . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . 2 2 . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . 2 2 . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-2 2 . . . . . . . . 
-. . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . 2 2 2 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-2 2 2 . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. 2 2 2 2 . . . . . 
+. . . . . . . . . . 
+. . 2 2 2 . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . . . . . . . 2 2 
+. . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 2 2 . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . 2 2 2 
-2 2 . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
-. . . . 2 2 2 . . . 
+. . . . . . . . . . 
+. . . 2 2 2 . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
 . . . . . . . . . . 
@@ -127,10 +125,9 @@ function iniMap () {
 . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0],
+            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6],
             TileScale.Sixteen
         ))
-    scene.setBackgroundColor(7)
     scene.setBackgroundImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
@@ -261,6 +258,28 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         caracter.vx += -80
     }
 })
+function createPump () {
+    pump = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . c c . . . . . . . 
+. . c c c . c c c c . c c c . . 
+. c c c c 7 7 7 7 7 7 c c c c . 
+. . . c 2 2 2 2 2 2 2 2 c . . . 
+. . c 2 2 2 2 2 2 2 2 2 2 c . . 
+. c 6 6 6 6 6 6 6 2 2 2 2 2 c . 
+. c b b b b b 6 6 6 6 6 6 6 c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c b b b b b b b b b b b b c . 
+. c c c c c c c c c c c c c c . 
+`, SpriteKind.Generator)
+    pump.ay = 200
+    pump.setPosition(caracter.x, caracter.y)
+}
 function initPlayer () {
     caracter = sprites.create(img`
 . . . . . . f f f f . . . . . . 
@@ -369,15 +388,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSp
     if (!(playerFixed)) {
         catchedBaloon = otherSprite
         playerFixed = true
-        otherSprite.vy = -80
+        otherSprite.vy = -40
     }
 })
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
+let pump: Sprite = null
+let caracter: Sprite = null
 let catchedBaloon: Sprite = null
 let playerFixed = false
-let caracter: Sprite = null
-let pump: Sprite = null
 let coloredBaloon: Image = null
 iniMap()
 initPlayer()
@@ -426,7 +445,8 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `, SpriteKind.Balon)
-        theBaloon.vy = -40
+        theBaloon.vy = -20
+        theBaloon.vx = Math.randomRange(-5, 5)
         theBaloon.setPosition(value.x, value.y - 16)
     }
 })
