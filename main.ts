@@ -107,8 +107,12 @@ function showAvailablePumps () {
     pumpScore.x = 20
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
-    game.over(true, effects.confetti)
-    music.wawawawaa.play()
+    if (gameLevel == 1) {
+        gameLevel += 1
+        iniMap()
+    } else if (gameLevel == 2) {
+        game.over(true, effects.confetti)
+    }
 })
 function colorBaloon (baloon: Sprite) {
     coloredBaloon = baloon.image
@@ -131,6 +135,76 @@ sprites.onCreated(SpriteKind.Balon, function (sprite) {
 })
 function iniMap () {
     if (gameLevel == 1) {
+        tiles.setTilemap(tiles.createTilemap(
+            hex`0a003c0001010101040c0c0d040d01010101010101010101010101010101010101010e010101010101010101050505050501010105050b0b0b0b0b1515150b0b151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a151515151515151515151515151515151515151515151515151515151515151515151515151515151d1d1d1d151515151d1d1515151d151515151d1515151515151515151d151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151915151515151515151519151515151515151515191515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a15151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515161615151515161515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151516161515151515151515151515151515151515151515151515151515151515151516151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151513131313131313131313`,
+            img`
+2 2 2 2 2 2 2 2 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 2 . . . 2 2 
+2 2 2 2 2 . . . 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 . . . . 2 2 
+. . . 2 . . . . 2 . 
+. . . . . . . . 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . 2 2 . . . . 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . 2 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 
+`,
+            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2,myTiles.tile3,sprites.builtin.oceanSand0,myTiles.tile4,sprites.builtin.coral2,sprites.builtin.coral5,sprites.builtin.coral3,sprites.builtin.coral1,sprites.builtin.oceanDepths0,sprites.builtin.oceanSand4],
+            TileScale.Sixteen
+        ))
+        scene.setBackgroundColor(8)
+        tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
+    } else if (gameLevel == 2) {
         tiles.setTilemap(tiles.createTilemap(
             hex`0a003c00040c0d0c040c0c0d040d080a0a0a0a0a0a0a0a09030101010101010101020301010101010101010203010101010101010102030e0101010101010102101010100f01010111100301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b0b0b010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101140102030101010101010b0b0b030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301011401010101010203010b0b0b010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010b0b0b0101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
             img`
@@ -322,76 +396,6 @@ function iniMap () {
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
         tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
-    } else if (gameLevel == 2) {
-        tiles.setTilemap(tiles.createTilemap(
-            hex`0a003c00040c0d0c040c0c0d040d1515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a151515151515151515151515151515151515151515151515151515151515151515151515151515151d1d1d1d151515151d1d1515151d151515151d1515151515151515151d151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151915151515151515151519151515151515151515191515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a15151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515161615151515161515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151516161515151515151515151515151515151515151515151515151515151515151516151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151513131313131313131313`,
-            img`
-2 2 2 2 2 2 2 2 2 2 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-2 2 2 2 . . . . 2 2 
-. . . 2 . . . . 2 . 
-. . . . . . . . 2 . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . 2 2 . . . . 2 . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . 2 2 . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-2 . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-2 2 2 2 2 2 2 2 2 2 
-`,
-            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2,myTiles.tile3,sprites.builtin.oceanSand0,myTiles.tile4,sprites.builtin.coral2,sprites.builtin.coral5,sprites.builtin.coral3,sprites.builtin.coral1,sprites.builtin.oceanDepths0,sprites.builtin.oceanSand4],
-            TileScale.Sixteen
-        ))
-        scene.setBackgroundColor(8)
-        tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSprite) {
@@ -517,7 +521,7 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
     }
 })
 function initGame () {
-    gameLevel = 2
+    gameLevel = 1
     info.setScore(0)
     music.setVolume(10)
 }
@@ -600,17 +604,17 @@ scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
 controller.combos.attachCombo("AA", function () {
     createPump()
 })
+let flipFish: Image = null
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
-let flipFish: Image = null
 let fishPirania: Sprite = null
 let pump: Sprite = null
 let remainingPumps = 0
 let catchedBaloon: Sprite = null
 let playerFixed = false
 let caracter: Sprite = null
-let gameLevel = 0
 let coloredBaloon: Image = null
+let gameLevel = 0
 let pumpScore: Sprite = null
 initGame()
 initPlayer()
@@ -632,29 +636,8 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (Math.percentChance(75)) {
-        fishPirania = sprites.create(img`
-. . . . . . . . . . . e . . . . 
-. . . . . . . . . . e . e . . . 
-. . . . . . . . . e . . . e . . 
-. . . . . . . . e . . . . . e . 
-5 5 . . . 5 5 5 5 5 f 5 . . e . 
-5 5 5 . . 5 5 5 5 5 5 5 . . 2 2 
-5 5 5 5 . 5 5 5 1 . 1 . . . 2 2 
-5 5 5 5 5 5 5 . . . . . . . . . 
-5 5 5 5 5 5 5 1 . . . . . . . . 
-5 5 5 5 . 5 5 5 . 1 . 1 . . . . 
-5 5 5 . . 5 5 5 5 5 5 5 . . . . 
-5 5 . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, SpriteKind.Enemy)
-        tiles.placeOnRandomTile(fishPirania, sprites.builtin.coral3)
-        flipFish = fishPirania.image
-        flipFish.flipX()
-        fishPirania.setImage(flipFish)
+    if (fishPirania.isHittingTile(CollisionDirection.Left)) {
+        fishPirania.destroy(effects.bubbles, 500)
     }
 })
 game.onUpdateInterval(2000, function () {
@@ -705,5 +688,32 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
         theBaloon.vy = randint(-50, -35)
         theBaloon.vx = randint(-5, 5)
         theBaloon.setPosition(value.x, value.y - 16)
+    }
+})
+game.onUpdateInterval(1000, function () {
+    if (Math.percentChance(75)) {
+        fishPirania = sprites.create(img`
+. . . . . . . . . . . e . . . . 
+. . . . . . . . . . e . e . . . 
+. . . . . . . . . e . . . e . . 
+. . . . . . . . e . . . . . e . 
+5 5 . . . 5 5 5 5 5 f 5 . . e . 
+5 5 5 . . 5 5 5 5 5 5 5 . . 2 2 
+5 5 5 5 . 5 5 5 1 . 1 . . . 2 2 
+5 5 5 5 5 5 5 . . . . . . . . . 
+5 5 5 5 5 5 5 1 . . . . . . . . 
+5 5 5 5 . 5 5 5 . 1 . 1 . . . . 
+5 5 5 . . 5 5 5 5 5 5 5 . . . . 
+5 5 . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Enemy)
+        tiles.placeOnRandomTile(fishPirania, sprites.builtin.coral3)
+        flipFish = fishPirania.image
+        flipFish.flipX()
+        fishPirania.setImage(flipFish)
+        fishPirania.setVelocity(randint(-50, -70), randint(-5, 5))
     }
 })
