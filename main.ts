@@ -87,6 +87,11 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
+function initGame () {
+    gameLevel = 1
+    info.setScore(0)
+    music.setVolume(10)
+}
 function iniMap () {
     scene.setBackgroundColor(13)
     tiles.setTilemap(tiles.createTilemap(
@@ -493,13 +498,13 @@ let catchedBaloon: Sprite = null
 let caracter: Sprite = null
 let pump: Sprite = null
 let remainingPumps = 0
+let gameLevel = 0
 let coloredBaloon: Image = null
 let pumpScore: Sprite = null
+initGame()
 iniMap()
 initPumpsScore()
 initPlayer()
-info.setScore(0)
-music.setVolume(10)
 game.onUpdateInterval(2000, function () {
     generatorPumpItem = sprites.allOfKind(SpriteKind.Generator)
     for (let value of generatorPumpItem) {
