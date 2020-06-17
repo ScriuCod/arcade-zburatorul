@@ -63,15 +63,53 @@ d d c 5 5 5 5 5 2 2 2 5 c d d d
 d d c 5 5 5 5 5 5 5 5 5 c d d d 
 d d c c c c c c c c c c c d d d 
 `
+    //% blockIdentity=images._tile
+    export const tile3 = img`
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+`
+    //% blockIdentity=images._tile
+    export const tile4 = img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . e e e . . . . 
+. . . . . . . . e . . . e . . . 
+. . . . . . . . e . . . . e . . 
+. 5 5 . . . 5 5 5 f 5 . . 2 2 . 
+. 5 5 5 . . 5 5 5 5 5 5 . 2 2 . 
+. 5 5 5 5 5 5 5 . 1 . 1 . . . . 
+. 5 5 5 5 5 5 5 . . . . . . . . 
+. 5 5 5 . . 5 5 1 . 1 . . . . . 
+. 5 5 . . . 5 5 5 5 5 5 . . . . 
+. . . . . . 5 5 5 5 5 . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`
+}
+function showAvailablePumps () {
+    pumpScore.y = scene.cameraTop() + 8
+    pumpScore.x = 20
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
     game.over(true, effects.confetti)
     music.wawawawaa.play()
 })
-function showAvailablePumps () {
-    pumpScore.y = scene.cameraTop() + 8
-    pumpScore.x = 20
-}
 function colorBaloon (baloon: Sprite) {
     coloredBaloon = baloon.image
     if (sprites.readDataNumber(baloon, "color") == 1) {
@@ -87,14 +125,13 @@ function colorBaloon (baloon: Sprite) {
     }
     baloon.setImage(coloredBaloon)
 }
-function initGame () {
-    gameLevel = 1
-    info.setScore(0)
-    music.setVolume(10)
-}
+sprites.onCreated(SpriteKind.Balon, function (sprite) {
+    sprites.setDataNumber(sprite, "color", randint(1, 5))
+    colorBaloon(sprite)
+})
 function iniMap () {
-    scene.setBackgroundColor(13)
-    tiles.setTilemap(tiles.createTilemap(
+    if (gameLevel == 1) {
+        tiles.setTilemap(tiles.createTilemap(
             hex`0a003c00040c0d0c040c0c0d040d080a0a0a0a0a0a0a0a09030101010101010101020301010101010101010203010101010101010102030e0101010101010102101010100f01010111100301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010b0b0b0b0b010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101140102030101010101010b0b0b030101010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301011401010101010203010b0b0b010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b010101010101010203010101010101010102030101010101010b0b0b0301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020301010b0b0b0101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020b0b0b010101010101020301010101010101010203010101010101010102030101010101010101020301010101010101010203010101010101010102030101010101010101020605050505050505050704040404040404040404`,
             img`
 2 2 2 2 2 2 2 2 2 2 
@@ -158,10 +195,11 @@ function iniMap () {
 . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2],
+            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2,myTiles.tile3,myTiles.tile4],
             TileScale.Sixteen
         ))
-    scene.setBackgroundImage(img`
+        scene.setBackgroundColor(13)
+        scene.setBackgroundImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
@@ -283,7 +321,97 @@ function iniMap () {
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
+        tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
+    } else if (gameLevel == 2) {
+        tiles.setTilemap(tiles.createTilemap(
+            hex`0a003c00040c0d0c040c0c0d040d1515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a151515151515151515151515151515151515151515151515151515151515151515151515151515151d1d1d1d151515151d1d1515151d151515151d1515151515151515151d151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151915151515151515151519151515151515151515191515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151a1515151515151515151a1515151515151515151a15151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515161615151515161515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151516161515151515151515151515151515151515151515151515151515151515151516151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151515151513131313131313131313`,
+            img`
+2 2 2 2 2 2 2 2 2 2 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 . . . . 2 2 
+. . . 2 . . . . 2 . 
+. . . . . . . . 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . 2 2 . . . . 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . 2 2 . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 
+`,
+            [myTiles.tile0,sprites.castle.tilePath5,sprites.castle.tilePath6,sprites.castle.tilePath4,sprites.castle.tileGrass1,sprites.castle.tilePath8,sprites.castle.tilePath7,sprites.castle.tilePath9,sprites.castle.tilePath1,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.castle.tileGrass3,myTiles.tile1,sprites.builtin.forestTiles3,sprites.builtin.forestTiles2,sprites.builtin.forestTiles1,sprites.builtin.forestTiles5,sprites.builtin.forestTiles6,myTiles.tile2,myTiles.tile3,sprites.builtin.oceanSand0,myTiles.tile4,sprites.builtin.coral2,sprites.builtin.coral5,sprites.builtin.coral3,sprites.builtin.coral1,sprites.builtin.oceanDepths0,sprites.builtin.oceanSand4],
+            TileScale.Sixteen
+        ))
+        scene.setBackgroundColor(8)
+        tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
+    }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSprite) {
+    if (!(playerFixed)) {
+        catchedBaloon = otherSprite
+        playerFixed = true
+        otherSprite.vy = -40
+        otherSprite.z = 40
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (playerFixed) {
+        playerFixed = false
+        caracter.vy = 50
+    } else {
+        if (caracter.vy == 0) {
+            caracter.vy += -100
+        }
+    }
+})
 function createPump () {
     if (remainingPumps > 0) {
         pump = sprites.create(img`
@@ -332,13 +460,8 @@ function initPlayer () {
 `, SpriteKind.Player)
     caracter.ay = 200
     caracter.z = 50
-    tiles.placeOnTile(caracter, tiles.getTileLocation(5, 58))
     createPump()
-    tiles.placeOnTile(caracter, tiles.getTileLocation(3, 58))
 }
-controller.combos.attachCombo("AA", function () {
-    createPump()
-})
 scene.onHitWall(SpriteKind.Balon, function (sprite) {
     sprite.startEffect(effects.confetti, 200)
     sprite.setImage(img`
@@ -393,23 +516,16 @@ scene.onHitWall(SpriteKind.Balon, function (sprite) {
         music.jumpDown.play()
     }
 })
-scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
-    sprite.startEffect(effects.confetti, 200)
-    sprite.destroy()
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (playerFixed) {
-        playerFixed = false
-        caracter.vy = 50
-    } else {
-        if (caracter.vy == 0) {
-            caracter.vy += -100
-        }
-    }
-})
-sprites.onCreated(SpriteKind.Balon, function (sprite) {
-    sprites.setDataNumber(sprite, "color", Math.randomRange(1, 5))
-    colorBaloon(sprite)
+function initGame () {
+    gameLevel = 2
+    info.setScore(0)
+    music.setVolume(10)
+}
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
+    tiles.setTileAt(location, sprites.castle.tilePath5)
+    remainingPumps += 1
+    music.baDing.play()
+    updateAvailablePumps()
 })
 function updateAvailablePumps () {
     if (remainingPumps == 3) {
@@ -477,34 +593,70 @@ function initPumpsScore () {
 `, SpriteKind.Score)
     updateAvailablePumps()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Balon, function (sprite, otherSprite) {
-    if (!(playerFixed)) {
-        catchedBaloon = otherSprite
-        playerFixed = true
-        otherSprite.vy = -40
-        otherSprite.z = 40
-    }
+scene.onHitWall(SpriteKind.baloonFalling, function (sprite) {
+    sprite.startEffect(effects.confetti, 200)
+    sprite.destroy()
 })
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
-    tiles.setTileAt(location, sprites.castle.tilePath5)
-    remainingPumps += 1
-    music.baDing.play()
-    updateAvailablePumps()
+controller.combos.attachCombo("AA", function () {
+    createPump()
 })
 let theBaloon: Sprite = null
 let generatorPumpItem: Sprite[] = []
-let playerFixed = false
-let catchedBaloon: Sprite = null
-let caracter: Sprite = null
+let flipFish: Image = null
+let fishPirania: Sprite = null
 let pump: Sprite = null
 let remainingPumps = 0
+let catchedBaloon: Sprite = null
+let playerFixed = false
+let caracter: Sprite = null
 let gameLevel = 0
 let coloredBaloon: Image = null
 let pumpScore: Sprite = null
 initGame()
-iniMap()
-initPumpsScore()
 initPlayer()
+initPumpsScore()
+iniMap()
+game.onUpdate(function () {
+    showAvailablePumps()
+    if (playerFixed) {
+        catchedBaloon.x += controller.dx(40)
+        scene.cameraFollowSprite(catchedBaloon)
+        caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
+        catchedBaloon.vy = -1 * (15 + (100 - caracter.y / 10))
+        if (info.score() < 1000 - caracter.y) {
+            info.setScore(1000 - caracter.y)
+        }
+    } else {
+        caracter.x += controller.dx(80)
+        scene.cameraFollowSprite(caracter)
+    }
+})
+game.onUpdate(function () {
+    if (Math.percentChance(75)) {
+        fishPirania = sprites.create(img`
+. . . . . . . . . . . e . . . . 
+. . . . . . . . . . e . e . . . 
+. . . . . . . . . e . . . e . . 
+. . . . . . . . e . . . . . e . 
+5 5 . . . 5 5 5 5 5 f 5 . . e . 
+5 5 5 . . 5 5 5 5 5 5 5 . . 2 2 
+5 5 5 5 . 5 5 5 1 . 1 . . . 2 2 
+5 5 5 5 5 5 5 . . . . . . . . . 
+5 5 5 5 5 5 5 1 . . . . . . . . 
+5 5 5 5 . 5 5 5 . 1 . 1 . . . . 
+5 5 5 . . 5 5 5 5 5 5 5 . . . . 
+5 5 . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Enemy)
+        tiles.placeOnRandomTile(fishPirania, sprites.builtin.coral3)
+        flipFish = fishPirania.image
+        flipFish.flipX()
+        fishPirania.setImage(flipFish)
+    }
+})
 game.onUpdateInterval(2000, function () {
     generatorPumpItem = sprites.allOfKind(SpriteKind.Generator)
     for (let value of generatorPumpItem) {
@@ -550,23 +702,8 @@ f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f
 . . . . . . . . . . . e . . . . . . . . . . . . . 
 . . . . . . . . . . . . e . . . . . . . . . . . . 
 `, SpriteKind.Balon)
-        theBaloon.vy = Math.randomRange(-50, -35)
-        theBaloon.vx = Math.randomRange(-5, 5)
+        theBaloon.vy = randint(-50, -35)
+        theBaloon.vx = randint(-5, 5)
         theBaloon.setPosition(value.x, value.y - 16)
-    }
-})
-game.onUpdate(function () {
-    showAvailablePumps()
-    if (playerFixed) {
-        catchedBaloon.x += controller.dx(40)
-        scene.cameraFollowSprite(catchedBaloon)
-        caracter.setPosition(catchedBaloon.x, catchedBaloon.y + 30)
-        catchedBaloon.vy = -1 * (15 + (100 - caracter.y / 10))
-        if (info.score() < 1000 - caracter.y) {
-            info.setScore(1000 - caracter.y)
-        }
-    } else {
-        caracter.x += controller.dx(80)
-        scene.cameraFollowSprite(caracter)
     }
 })
